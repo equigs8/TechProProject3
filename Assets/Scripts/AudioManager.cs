@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip goodClick;
 
     public AudioClip badClick;
+    
+    public Audio Clip music;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,7 +29,8 @@ public class AudioManager : MonoBehaviour
 
 
     void PlayMusic(){
-        
+        background.clip = music;
+        background.Play();
 
     }
 
@@ -41,4 +44,5 @@ public class AudioManager : MonoBehaviour
         player.Play();
     }
 
+    
 }
