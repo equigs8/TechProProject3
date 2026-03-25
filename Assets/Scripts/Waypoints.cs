@@ -13,17 +13,30 @@ public class Waypoints : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
-{
-    for (int i = 0; i < transform.childCount; i++)
+    private void OnDrawGizmos()
     {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawSphere(transform.GetChild(i).position, 0.3f);
+        
+        // Check if there are any waypoints to draw
+        if (transform.childCount == 0) return;
 
-        if (i < transform.childCount - 1)
+        Gizmos.color = Color.cyan; // Choose a high-visibility color
+
+        for (int i = 0; i < transform.childCount; i++)
         {
-            Gizmos.DrawLine(transform.GetChild(i).position, transform.GetChild(i + 1).position);
+            
+            Transform currentPoint = transform.GetChild(i);
+            
+            // 1. Draw a sphere at every waypoint position
+            Gizmos.DrawSphere(currentPoint.position, 0.4f);
+
+            // 2. Draw a line to the next waypoint
+            if (i < transform.childCount - 1)
+            {
+                Transform nextPoint = transform.GetChild(i + 1);
+                Gizmos.DrawLine(currentPoint.position, nextPoint.position);
+            }
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(currentPoint.position, currentPoint.forward * 2f);
         }
     }
-}
 }

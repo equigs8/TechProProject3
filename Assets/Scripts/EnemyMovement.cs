@@ -17,19 +17,24 @@ public class EnemyMovement : MonoBehaviour
 
     void Update()
     {
-        // 1. Move towards the target
-        Vector3 dir = target.position - transform.position;
+        // 1. Create a "flattened" target position at the enemy's current height
+        Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, target.position.z);
+        
+        // 2. Calculate direction based on the flattened position
+        Vector3 dir = targetPosition - transform.position;
+        
+        // 3. Move towards the target (using the flattened direction)
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
 
-        // 2. Rotate to face the direction of movement
+        // 4. Rotate to face the direction
         if (dir != Vector3.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
         }
 
-        // 3. Check if we reached the waypoint
-        if (Vector3.Distance(transform.position, target.position) <= 0.2f)
+        // 5. Check distance (ignoring Y)
+        if (Vector3.Distance(transform.position, targetPosition) <= 0.2f)
         {
             GetNextWaypoint();
         }
