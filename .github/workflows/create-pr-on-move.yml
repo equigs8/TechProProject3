@@ -21,7 +21,7 @@ jobs:
         run: |
           # 1. Verify the current status of the issue on the project board
           # We check if the 'Status' field is actually 'Review'
-          CURRENT_STATUS=$(gh item-field-list $ISSUE_NUMBER --project "YOUR_PROJECT_NAME" --format json | jq -r '.[] | select(.name=="Status") | .value')
+          CURRENT_STATUS=$(gh item-field-list $ISSUE_NUMBER --project "Team Work" --format json | jq -r '.[] | select(.name=="Status") | .value')
 
           if [ "$CURRENT_STATUS" != "Review" ]; then
             echo "Issue is in $CURRENT_STATUS, not Review. Skipping."
