@@ -5,36 +5,43 @@ public class EnemyMovement : MonoBehaviour
     [Header("Attributes")]
     public float speed = 10f;
     public float rotationSpeed = 5f;
+    public float stopDistance = 2.0f; // The "buffer" so enemies don't stack
 
     private Transform target;
     private int waypointIndex = 0;
+    private bool isAtTarget = false;
 
     void Start()
     {
-        // Start moving toward the first waypoint
         target = Waypoints.points[0];
     }
 
     void Update()
     {
-        // 1. Create a "flattened" target position at the enemy's current height
+        if (isAtTarget) return; // Stop moving logic
+
         Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, target.position.z);
-        
-        // 2. Calculate direction based on the flattened position
         Vector3 dir = targetPosition - transform.position;
-        
-        // 3. Move towards the target (using the flattened direction)
+
+        float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+
+        // Check if we are at the LAST waypoint and within buffer distance
+        if (waypointIndex >= Waypoints.points.Length - 1 && distanceToTarget <= stopDistance)
+        {
+            isAtTarget = true;
+            return;
+        }
+
+        // Standard Movement
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
 
-        // 4. Rotate to face the direction
         if (dir != Vector3.zero)
         {
             Quaternion lookRotation = Quaternion.LookRotation(dir);
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
         }
 
-        // 5. Check distance (ignoring Y)
-        if (Vector3.Distance(transform.position, targetPosition) <= 0.2f)
+        if (distanceToTarget <= 0.2f)
         {
             GetNextWaypoint();
         }
@@ -44,7 +51,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (waypointIndex >= Waypoints.points.Length - 1)
         {
-            EndPath();
+            // We have reached the final point; EnemyMovement Update handles the stop
             return;
         }
 
@@ -52,9 +59,5 @@ public class EnemyMovement : MonoBehaviour
         target = Waypoints.points[waypointIndex];
     }
 
-    void EndPath()
-    {
-        // Here you would deduct player lives
-        Destroy(gameObject);
-    }
+    public bool ReachedTarget() => isAtTarget;
 }
