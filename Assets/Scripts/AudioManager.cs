@@ -12,7 +12,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip badClick;
     
-    public Audio Clip music;
+    public AudioClip music;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
