@@ -1,0 +1,23 @@
+name: Create PR on Column Move
+
+on:
+  project_column_move: # Note: For Projects V2, we use project_next_item
+  project_next_item:
+    types: [edited]
+
+jobs:
+  create_pr:
+    runs-on: ubuntu-latest
+    if: github.event.changes.field_value.field_name == 'Status' && github.event.project_next_item.field_values.status == 'Review'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.project_next_item.content_node_id }}
+        run: |
+          # Use the GitHub CLI to create the PR
+          # This assumes your branch name matches the issue (e.g., "issue-123")
+          gh pr create --title "Review Request for Issue #$ISSUE_NUMBER" --body "Automatically created via Project Board move." --base main
