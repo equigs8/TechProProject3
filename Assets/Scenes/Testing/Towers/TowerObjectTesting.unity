@@ -304,66 +304,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret
       objectReference: {fileID: 0}
-    - target: {fileID: 478993480357207627, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: m_Name
-      value: Firepoint
-      objectReference: {fileID: 0}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: range
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: fireRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: bulletPrefab
-      value: 
-      objectReference: {fileID: 4148628363837234058, guid: 877ba588940105f44a82b455ee1ec07d, type: 3}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: fireAllAtOnce
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: firePoints.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: 'firePoints.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1039205640}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: 'firePoints.Array.data[1]'
-      value: 
-      objectReference: {fileID: 1917074811}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: turretBarrels.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: barrelsToRotate.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: 'turretBarrels.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1909643696}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: 'turretBarrels.Array.data[1]'
-      value: 
-      objectReference: {fileID: 1142254015}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: 'barrelsToRotate.Array.data[0]'
-      value: 
-      objectReference: {fileID: 1909643695}
-    - target: {fileID: 748117351763230373, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: 'barrelsToRotate.Array.data[1]'
-      value: 
-      objectReference: {fileID: 1142254014}
-    - target: {fileID: 3121921056025719004, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: m_Name
-      value: Firepoint
-      objectReference: {fileID: 0}
     - target: {fileID: 3964750478533439031, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.1554794
@@ -404,22 +344,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5014417949246654398, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: pivot
-      value: 
-      objectReference: {fileID: 1909643695}
-    - target: {fileID: 5014417949246654398, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: firePoint
-      value: 
-      objectReference: {fileID: 1039205640}
-    - target: {fileID: 7697897410208286804, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: pivot
-      value: 
-      objectReference: {fileID: 1142254014}
-    - target: {fileID: 7697897410208286804, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-      propertyPath: firePoint
-      value: 
-      objectReference: {fileID: 1917074811}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -707,11 +631,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1039205640 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 246110665946514151, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-  m_PrefabInstance: {fileID: 562833067}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1045742481
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,22 +776,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1142254014 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1130113227971055579, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-  m_PrefabInstance: {fileID: 562833067}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1142254015 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7697897410208286804, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-  m_PrefabInstance: {fileID: 562833067}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1ba99284d998a946b605c10d9e2548f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Barrel
 --- !u!1 &1175970129
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,27 +838,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 271762948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1909643695 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1592096766069520949, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-  m_PrefabInstance: {fileID: 562833067}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1909643696 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5014417949246654398, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-  m_PrefabInstance: {fileID: 562833067}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1ba99284d998a946b605c10d9e2548f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Barrel
---- !u!4 &1917074811 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4556920395643000557, guid: 9c36b28e1daa1bf4fb281ecbce8dddb0, type: 3}
-  m_PrefabInstance: {fileID: 562833067}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1985244518
 GameObject:
   m_ObjectHideFlags: 0
