@@ -5,6 +5,7 @@ using System.Linq; // Required for sorting enemies
 public class Turret : MonoBehaviour
 {
     [Header("Attributes")]
+    public Vector2Int gridSize = new Vector2Int(1, 1);
     public float range = 15f;
     public float fireRate = 1f;
     private float fireCountdown = 0f;
