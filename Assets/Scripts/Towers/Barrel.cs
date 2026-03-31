@@ -2,19 +2,9 @@ using UnityEngine;
 
 public class Barrel : MonoBehaviour
 {
-
-    public Transform firePoint;
-    public Transform pivot;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        pivot = gameObject.transform;
-        //if(firePoint == null) firePoint = transform.Find("FirePoint").gameObject.transform;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Transform pivot;      // The part that actually rotates
+    public Transform firePoint;  // Where the bullet comes out
+    
+    [HideInInspector]
+    public Transform currentTarget; // Assigned by the Turret script
 }

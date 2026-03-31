@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq; // Required for sorting enemies
 
 public class Turret : MonoBehaviour
 {
@@ -15,45 +16,48 @@ public class Turret : MonoBehaviour
 
     [Header("Barrel Configuration")]
     public List<Barrel> turretBarrels = new List<Barrel>();
-    public bool fireAllAtOnce = false;
-    private int currentBarrelIndex = 0;
-
-    private Transform target;
 
     void Start()
     {
-        // Automatically find barrels if none were assigned manually
+        // Automatically fill the list if empty
         if (turretBarrels.Count == 0)
         {
             turretBarrels.AddRange(GetComponentsInChildren<Barrel>());
         }
 
-        InvokeRepeating("UpdateTarget", 0f, 0.5f);
+        // Search for targets twice a second
+        InvokeRepeating("UpdateTargetAssignments", 0f, 0.5f);
     }
 
-    void UpdateTarget()
+    void UpdateTargetAssignments()
     {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        float shortestDistance = Mathf.Infinity;
-        GameObject nearestEnemy = null;
+        GameObject[] allEnemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        
+        // Find all enemies in range and sort them by distance to this turret
+        List<Transform> sortedEnemies = allEnemies
+            .Select(e => e.transform)
+            .Where(t => Vector3.Distance(transform.position, t.position) <= range)
+            .OrderBy(t => Vector3.Distance(transform.position, t.position))
+            .ToList();
 
-        foreach (GameObject enemy in enemies)
+        // Assign a unique enemy to each barrel
+        for (int i = 0; i < turretBarrels.Count; i++)
         {
-            float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
-            if (distanceToEnemy < shortestDistance)
+            if (i < sortedEnemies.Count)
             {
-                shortestDistance = distanceToEnemy;
-                nearestEnemy = enemy;
+                // Assign the i-th closest enemy to the i-th barrel
+                turretBarrels[i].currentTarget = sortedEnemies[i];
+            }
+            else
+            {
+                // No more unique enemies available
+                turretBarrels[i].currentTarget = null;
             }
         }
-
-        target = (nearestEnemy != null && shortestDistance <= range) ? nearestEnemy.transform : null;
     }
 
     void Update()
     {
-        if (target == null) return;
-
         RotateBarrels();
 
         if (fireCountdown <= 0f)
@@ -61,55 +65,49 @@ public class Turret : MonoBehaviour
             Shoot();
             fireCountdown = 1f / fireRate;
         }
-
         fireCountdown -= Time.deltaTime;
     }
 
     void RotateBarrels()
     {
-        Vector3 dir = target.position - transform.position;
-        Quaternion lookRotation = Quaternion.LookRotation(dir);
-
         foreach (Barrel barrel in turretBarrels)
         {
-            if (barrel.pivot == null) continue;
+            // Ensure the barrel has a target and a valid pivot to rotate
+            if (barrel.currentTarget == null || barrel.pivot == null) continue;
 
-            // Smoothly rotate the barrel's pivot toward the enemy
-            barrel.pivot.rotation = Quaternion.Lerp(barrel.pivot.rotation, lookRotation, Time.deltaTime * turnSpeed);
+            // Calculate direction to the specific target assigned to this barrel
+            Vector3 dir = barrel.currentTarget.position - barrel.pivot.position;
+            
+            if (dir != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(dir);
+                // Use Slerp for smoother tracking
+                barrel.pivot.rotation = Quaternion.Slerp(barrel.pivot.rotation, lookRotation, Time.deltaTime * turnSpeed);
+            }
         }
     }
 
     void Shoot()
     {
-        if (turretBarrels.Count == 0) return;
-
-        if (fireAllAtOnce)
+        foreach (Barrel barrel in turretBarrels)
         {
-            foreach (Barrel barrel in turretBarrels)
+            // Only fire if this specific barrel has a target
+            if (barrel.currentTarget != null)
             {
                 FireFromBarrel(barrel);
             }
-        }
-        else
-        {
-            FireFromBarrel(turretBarrels[currentBarrelIndex]);
-            currentBarrelIndex = (currentBarrelIndex + 1) % turretBarrels.Count;
         }
     }
 
     void FireFromBarrel(Barrel barrel)
     {
-        // Check if the barrel or the firePoint reference has been lost
-        if (barrel == null || barrel.firePoint == null || bulletPrefab == null) 
-        {
-            return; 
-        }
+        if (barrel.firePoint == null || bulletPrefab == null) return;
 
         GameObject bulletGO = Instantiate(bulletPrefab, barrel.firePoint.position, barrel.firePoint.rotation);
         Bullet bullet = bulletGO.GetComponent<Bullet>();
 
         if (bullet != null)
-            bullet.Seek(target);
+            bullet.Seek(barrel.currentTarget); // Pass the barrel's unique target
     }
 
     void OnDrawGizmosSelected()
