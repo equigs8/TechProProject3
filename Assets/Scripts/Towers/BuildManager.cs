@@ -32,17 +32,21 @@ public class BuildManager : MonoBehaviour
     // Helper to make the preview look like a ghost
     void PreparePreview(GameObject preview)
     {
-        // Disable scripts/combat so the ghost doesn't shoot
-        MonoBehaviour[] scripts = preview.GetComponentsInChildren<MonoBehaviour>();
-        foreach (var script in scripts) script.enabled = false;
+        // 1. Disable Colliders so Raycast doesn't flicker
+        Collider[] colliders = preview.GetComponentsInChildren<Collider>();
+        foreach (Collider col in colliders) col.enabled = false;
 
-        // Change materials to transparent (optional but recommended)
+        // 2. ONLY disable the Turret script so it doesn't try to shoot
+        Turret turretScript = preview.GetComponent<Turret>();
+        if (turretScript != null) turretScript.enabled = false;
+
+        // 3. Make it transparent
         Renderer[] renders = preview.GetComponentsInChildren<Renderer>();
         foreach (Renderer r in renders)
         {
             foreach (Material m in r.materials)
             {
-                // Note: Standard shader needs "Fade" or "Transparent" mode set in Inspector
+                // Ensure your material's Rendering Mode is set to 'Fade' or 'Transparent'
                 Color c = m.color;
                 c.a = 0.5f; 
                 m.color = c;
