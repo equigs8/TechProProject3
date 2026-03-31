@@ -1,10 +1,14 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class LossManager : MonoBehaviour
 {
 
-    string[] GameTips = {"a","b"};
+    public string[] GameTips = {"a","b","You Suck!"};
      public GameObject LossScreen;
+     public TextMeshProUGUI GameTipsText;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,6 +38,8 @@ public class LossManager : MonoBehaviour
     public void MainMenu(){
         //Debug.Log("MainMenu!");
         //Debug.Log(GameTips[Random.Range(0,GameTips.Length)]);
-        Debug.Log(GameTips[0]);
+        //Debug.Log(GameTips[0]);
+        GameTipsText.text = GameTips[Random.Range(0,GameTips.Length)];
+        
     }
 }
