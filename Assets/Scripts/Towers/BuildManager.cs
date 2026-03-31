@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BuildManager : MonoBehaviour
 {
@@ -10,18 +11,24 @@ public class BuildManager : MonoBehaviour
         instance = this;
     }
 
+    [Header("Prefabs")]
     public GameObject standardTurretPrefab;
+    public GameObject largeTurretPrefab;
+    
     private GameObject turretToBuild;
-    private GameObject previewInstance; // The ghost turret
+    private GameObject previewInstance;
+
+    public GameObject GetTurretToBuild()
+    {
+        return turretToBuild;
+    }
 
     public void SelectTurretToBuild(GameObject turret)
     {
         turretToBuild = turret;
-        
-        // Clear old preview if selecting a new type
+
         if (previewInstance != null) Destroy(previewInstance);
-        
-        // Create the new preview ghost
+
         if (turretToBuild != null)
         {
             previewInstance = Instantiate(turretToBuild);
@@ -29,26 +36,22 @@ public class BuildManager : MonoBehaviour
         }
     }
 
-    // Helper to make the preview look like a ghost
     void PreparePreview(GameObject preview)
     {
-        // 1. Disable Colliders so Raycast doesn't flicker
-        Collider[] colliders = preview.GetComponentsInChildren<Collider>();
-        foreach (Collider col in colliders) col.enabled = false;
-
-        // 2. ONLY disable the Turret script so it doesn't try to shoot
+        // Disable logic so the ghost doesn't shoot or collide
         Turret turretScript = preview.GetComponent<Turret>();
         if (turretScript != null) turretScript.enabled = false;
 
-        // 3. Make it transparent
+        Collider[] colliders = preview.GetComponentsInChildren<Collider>();
+        foreach (Collider col in colliders) col.enabled = false;
+
         Renderer[] renders = preview.GetComponentsInChildren<Renderer>();
         foreach (Renderer r in renders)
         {
             foreach (Material m in r.materials)
             {
-                // Ensure your material's Rendering Mode is set to 'Fade' or 'Transparent'
                 Color c = m.color;
-                c.a = 0.5f; 
+                c.a = 0.5f;
                 m.color = c;
             }
         }
@@ -56,44 +59,34 @@ public class BuildManager : MonoBehaviour
 
     void Update()
     {
-        UpdatePreviewPosition();
-
         if (turretToBuild == null) return;
+
+        UpdatePreviewPosition();
 
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                Node node = hit.transform.GetComponent<Node>();
-                if (node != null)
-                {
-                    BuildTurretOn(node);
-                }
-            }
+            HandlePlacement();
         }
     }
 
-    [Header("Settings")]
-    public LayerMask m_LayerMask; // Set this to everything EXCEPT the "Ignore Raycast" layer
-
     void UpdatePreviewPosition()
     {
-        if (previewInstance == null) return;
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        // Add the m_LayerMask here to ignore the ghost
-        if (Physics.Raycast(ray, out hit, 100f, m_LayerMask))
+        if (Physics.Raycast(ray, out hit))
         {
             Node node = hit.transform.GetComponent<Node>();
             if (node != null)
             {
-                previewInstance.SetActive(true);
-                previewInstance.transform.position = node.GetPlacementPosition();
+                Vector2Int size = GetCurrentTurretSize();
+                List<Node> footprint = GetNodesInFootprint(node, size.x, size.y);
+
+                if (footprint.Count > 0)
+                {
+                    previewInstance.SetActive(true);
+                    previewInstance.transform.position = GetCenterOfNodes(footprint);
+                }
             }
             else
             {
@@ -102,19 +95,93 @@ public class BuildManager : MonoBehaviour
         }
     }
 
-    void BuildTurretOn(Node node)
+    void HandlePlacement()
     {
-        if (node.turret != null)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
         {
-            Debug.Log("Node already occupied!");
+            Node node = hit.transform.GetComponent<Node>();
+            if (node != null)
+            {
+                BuildTurretOn(node);
+            }
+        }
+    }
+
+    void BuildTurretOn(Node rootNode)
+    {
+        Vector2Int size = GetCurrentTurretSize();
+        List<Node> footprint = GetNodesInFootprint(rootNode, size.x, size.y);
+
+        // Validation: Ensure the full area is available
+        if (footprint.Count < (size.x * size.y))
+        {
+            Debug.Log("Not enough space!");
             return;
         }
 
-        Instantiate(turretToBuild, node.GetPlacementPosition(), Quaternion.identity);
-        node.turret = turretToBuild;
+        foreach (Node n in footprint)
+        {
+            if (n.turret != null)
+            {
+                Debug.Log("Area is occupied!");
+                return;
+            }
+        }
 
-        // Cleanup preview after building
-        Destroy(previewInstance);
+        // Build the turret at the center of the selected nodes
+        Vector3 spawnPos = GetCenterOfNodes(footprint);
+        GameObject turret = Instantiate(turretToBuild, spawnPos, Quaternion.identity);
+
+        // Mark all nodes in the footprint as occupied
+        foreach (Node n in footprint)
+        {
+            n.turret = turret;
+        }
+
+        // Cleanup
+        if (previewInstance != null) Destroy(previewInstance);
         turretToBuild = null;
+    }
+
+    // Helper: Finds neighbors based on the "Node_X_Z" naming convention
+    List<Node> GetNodesInFootprint(Node rootNode, int w, int l)
+    {
+        List<Node> nodes = new List<Node>();
+        string[] parts = rootNode.name.Split('_'); //
+        
+        if (parts.Length < 3) return nodes;
+
+        int startX = int.Parse(parts[1]);
+        int startZ = int.Parse(parts[2]);
+
+        for (int x = 0; x < w; x++)
+        {
+            for (int z = 0; z < l; z++)
+            {
+                GameObject neighbor = GameObject.Find($"Node_{startX + x}_{startZ + z}");
+                if (neighbor != null)
+                {
+                    Node n = neighbor.GetComponent<Node>();
+                    if (n != null) nodes.Add(n);
+                }
+            }
+        }
+        return nodes;
+    }
+
+    Vector3 GetCenterOfNodes(List<Node> nodes)
+    {
+        Vector3 center = Vector3.zero;
+        foreach (Node n in nodes) center += n.GetPlacementPosition();
+        return center / nodes.Count;
+    }
+
+    Vector2Int GetCurrentTurretSize()
+    {
+        Turret t = turretToBuild.GetComponent<Turret>();
+        return t != null ? t.gridSize : new Vector2Int(1, 1);
     }
 }
