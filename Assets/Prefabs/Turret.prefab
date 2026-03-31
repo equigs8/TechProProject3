@@ -126,16 +126,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8cf16928892e94b9bc8df978513b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  health: 0
-  cost: 0
-  barrels: 0
-  fireRate: 0
-  barrelRotationSpeed: 0
-  damage: 0
-  range: 0
-  projectilePrefab: {fileID: 0}
-  barrelsList: []
-  target: {fileID: 0}
+  range: 25
+  fireRate: 1
+  enemyTag: Enemy
+  turnSpeed: 10
+  bulletPrefab: {fileID: 4148628363837234058, guid: 877ba588940105f44a82b455ee1ec07d, type: 3}
+  turretBarrels:
+  - {fileID: 5014417949246654398}
+  - {fileID: 7697897410208286804}
 --- !u!1 &478993480357207627
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 246110665946514151}
   m_Layer: 2
-  m_Name: firepoint
+  m_Name: Firepoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -292,7 +290,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1ba99284d998a946b605c10d9e2548f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Barrel
-  firePoint: {fileID: 478993480357207627}
+  pivot: {fileID: 1592096766069520949}
+  firePoint: {fileID: 246110665946514151}
+  currentTarget: {fileID: 0}
 --- !u!1 &3121921056025719004
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,7 +303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4556920395643000557}
   m_Layer: 2
-  m_Name: firepoint
+  m_Name: Firepoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -449,4 +449,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1ba99284d998a946b605c10d9e2548f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Barrel
-  firePoint: {fileID: 3121921056025719004}
+  pivot: {fileID: 1130113227971055579}
+  firePoint: {fileID: 4556920395643000557}
+  currentTarget: {fileID: 0}
