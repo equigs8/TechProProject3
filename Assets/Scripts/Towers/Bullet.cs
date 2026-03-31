@@ -34,7 +34,7 @@ public class Bullet : MonoBehaviour
     void HitTarget()
     {
         // Assuming your Enemy has a health script or simple logic
-        //enemy.TakeDamage(damage); 
+        target.GetComponent<Enemy>().TakeDamage(damage); 
         Destroy(gameObject);
     }
 }
