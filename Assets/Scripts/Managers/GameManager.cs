@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
 
     void ReadyButtonClicked()
     {
-        buttonManager.TurnOffButton("ReadyButton");
+        buttonManager.TurnOffButton("Ready Button");
         gameState = GameState.InWave;
     }
 }
