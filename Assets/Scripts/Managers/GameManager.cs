@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,14 @@ public class GameManager : MonoBehaviour
 
     public EnemySpawner enemySpawner;
     public BuildingManager buildingManager;
+    public ButtonManager buttonManager;
+    
+
+
+    void OnEnable()
+    {
+        SubscribeToEvents();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,5 +41,16 @@ public class GameManager : MonoBehaviour
             case GameState.Tutorial:
                 break;
         }
+    }
+
+    void SubscribeToEvents()
+    {
+        buttonManager.readyButton.AddListener(ReadyButtonClicked);
+    }
+
+    void ReadyButtonClicked()
+    {
+        buttonManager.TurnOffButton("ReadyButton");
+        gameState = GameState.InWave;
     }
 }
