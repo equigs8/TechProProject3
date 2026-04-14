@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class Turret : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Turret : MonoBehaviour
     public Vector2Int size = new Vector2Int(1, 1); // Width (X) and Length (Y) in nodes
 
     [Header("Attributes")]
+    public int cost = 10;
     public float range = 15f;
     public float fireRate = 1f;
     private float fireCountdown = 0f;
@@ -96,5 +98,10 @@ public class Turret : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, range);
+    }
+
+    internal int GetPrice()
+    {
+        return cost;
     }
 }

@@ -18,12 +18,21 @@ public class BuildManager : MonoBehaviour
     public void SelectTurretToBuild(GameObject turret)
     {
         turretToBuild = turret;
+
+        if (turretToBuild.GetComponent<Turret>().GetPrice() >= ResourceManager.instance.GetOil())
+        {
+            Debug.Log("Not enough oil!");
+            turretToBuild = null;
+            return;
+        }
+
         if (previewInstance != null) Destroy(previewInstance);
 
         if (turretToBuild != null)
         {
             previewInstance = Instantiate(turretToBuild);
             PreparePreview(previewInstance);
+            ResourceManager.instance.RemoveOil(turretToBuild.GetComponent<Turret>().GetPrice());
         }
     }
 

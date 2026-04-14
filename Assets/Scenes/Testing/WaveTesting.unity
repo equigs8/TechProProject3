@@ -3036,11 +3036,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866deebf23753454da28a6a4c26d3fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefab: {fileID: 0}
-  spawnRadius: 20
+  enemyPrefab: {fileID: 490064776433880116, guid: 2b1dc47c384128f4cb43989281e7627d, type: 3}
+  spawnRadius: 50
   spawnInterval: 0.5
   baseEnemyCount: 5
-  centerPoint: {fileID: 0}
+  centerPoint: {fileID: 233195646}
 --- !u!4 &512544758
 Transform:
   m_ObjectHideFlags: 0
@@ -3604,6 +3604,7 @@ MonoBehaviour:
   enemySpawner: {fileID: 512544757}
   buildingManager: {fileID: 463391095}
   buttonManager: {fileID: 1546935894}
+  resourceManager: {fileID: 1344213937}
 --- !u!4 &618984481
 Transform:
   m_ObjectHideFlags: 0
@@ -7108,6 +7109,52 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1321508303}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1344213936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1344213938}
+  - component: {fileID: 1344213937}
+  m_Layer: 0
+  m_Name: Resource Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1344213937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344213936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d49051764a74724d84e62f02120ecf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResourceManager
+  oilAmount: 0
+  producing: 0
+--- !u!4 &1344213938
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344213936}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12.21333, y: -6.87, z: 11.89919}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1370069664
 GameObject:
   m_ObjectHideFlags: 0
@@ -7811,7 +7858,7 @@ MonoBehaviour:
   readyButton:
     m_PersistentCalls:
       m_Calls: []
-  readyButtonObject: {fileID: 0}
+  readyButtonObject: {fileID: 6937282}
 --- !u!4 &1546935895
 Transform:
   m_ObjectHideFlags: 0
@@ -10525,4 +10572,5 @@ SceneRoots:
   - {fileID: 463391096}
   - {fileID: 1546935895}
   - {fileID: 512544758}
+  - {fileID: 1344213938}
   - {fileID: 1669359418}

@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public EnemySpawner enemySpawner;
     public BuildingManager buildingManager;
     public ButtonManager buttonManager;
+    public ResourceManager resourceManager;
 
     void Awake()
     {
@@ -36,8 +37,10 @@ public class GameManager : MonoBehaviour
         switch (gameState)
         {
             case GameState.BuildingPhase:
+                resourceManager.StopOilProduction();
                 break;
             case GameState.InWave:
+                resourceManager.StartOilProduction();
                 // Check if all enemies are defeated to return to BuildingPhase
                 if (enemiesAlive <= 0)
                 {
