@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
 public class BuildManager : MonoBehaviour
 {
     public static BuildManager instance;
@@ -14,6 +15,7 @@ public class BuildManager : MonoBehaviour
     public GameObject standardTurretPrefab;
     private GameObject turretToBuild;
     private GameObject previewInstance;
+    public float turretOffset = 1f;
 
     public void SelectTurretToBuild(GameObject turret)
     {
@@ -30,7 +32,8 @@ public class BuildManager : MonoBehaviour
 
         if (turretToBuild != null)
         {
-            previewInstance = Instantiate(turretToBuild);
+            Vector3 offset = new Vector3(0, turretOffset, 0);
+            previewInstance = Instantiate(turretToBuild, transform.position + offset, Quaternion.identity);
             PreparePreview(previewInstance);
             ResourceManager.instance.RemoveOil(turretToBuild.GetComponent<Turret>().GetPrice());
         }
