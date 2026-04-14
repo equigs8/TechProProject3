@@ -771,6 +771,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Large Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 7368645547563611539, guid: f3cb575dd598cea468de695929052d1c, type: 3}
+      propertyPath: turnSpeed
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1137,6 +1141,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b1dc47c384128f4cb43989281e7627d, type: 3}
+--- !u!1001 &5898653933565692194
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -6.04481
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -19.02779
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.77783
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1336426992023328750, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364850406155863992, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
+      propertyPath: m_Name
+      value: unique turret
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1790c2fe4e7dca54ca67d4c70080a491, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1151,3 +1212,4 @@ SceneRoots:
   - {fileID: 500849648}
   - {fileID: 5041658408292251954}
   - {fileID: 1613544218}
+  - {fileID: 5898653933565692194}
