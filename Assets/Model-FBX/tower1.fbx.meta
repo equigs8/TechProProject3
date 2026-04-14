@@ -3,7 +3,17 @@ guid: 1f9f5fb9721ad49f49161d4f86b76a8b
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tbarrel2
+    second: {fileID: 2100000, guid: 90f06c9c35b083345b174b7eea7185b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: turret1_
+    second: {fileID: 2100000, guid: b8da0bd116c244642adb4a0413ee600c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
