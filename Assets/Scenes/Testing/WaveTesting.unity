@@ -7991,6 +7991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ResourceManager
   oilAmount: 10
   producing: 0
+  oilMax: 100
 --- !u!4 &1344213938
 Transform:
   m_ObjectHideFlags: 0
