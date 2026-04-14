@@ -14,6 +14,7 @@ public class EnemyAttack : MonoBehaviour
 
     void Start()
     {
+        
         movement = GetComponent<EnemyMovement>();
         
         // Automatically find the target script if not assigned
@@ -31,6 +32,7 @@ public class EnemyAttack : MonoBehaviour
             if (Time.time >= lastAttackTime + attackCooldown)
             {
                 Attack();
+                Debug.Log(gameObject.name + " is attacking!");
             }
         }
     }

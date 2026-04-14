@@ -11,10 +11,13 @@ public class GameManager : MonoBehaviour
     public int currentWave;
     public int enemiesAlive; // Tracks remaining enemies
 
+    public Target target;
+
     public EnemySpawner enemySpawner;
     public BuildingManager buildingManager;
     public ButtonManager buttonManager;
     public ResourceManager resourceManager;
+    public UIManager uiManager;
 
     void Awake()
     {
@@ -38,16 +41,23 @@ public class GameManager : MonoBehaviour
         {
             case GameState.BuildingPhase:
                 resourceManager.StopOilProduction();
+                uiManager.BuildingPhaseUI(true);
                 break;
             case GameState.InWave:
                 resourceManager.StartOilProduction();
+                uiManager.BuildingPhaseUI(false);
                 // Check if all enemies are defeated to return to BuildingPhase
                 if (enemiesAlive <= 0)
                 {
                     EndWave();
                 }
+                if(target.health <= 0)
+                {
+                    gameState = GameState.GameOver;
+                }
                 break;
             case GameState.GameOver:
+                uiManager.GameOverUI(true);
                 break;
             case GameState.Tutorial:
                 break;
