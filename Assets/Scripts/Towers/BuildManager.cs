@@ -19,7 +19,7 @@ public class BuildManager : MonoBehaviour
     {
         turretToBuild = turret;
 
-        if (turretToBuild.GetComponent<Turret>().GetPrice() >= ResourceManager.instance.GetOil())
+        if (turretToBuild.GetComponent<Turret>().GetPrice() > ResourceManager.instance.GetOil())
         {
             Debug.Log("Not enough oil!");
             turretToBuild = null;

@@ -16,6 +16,8 @@ public class EnemyMovement : MonoBehaviour
         if (Waypoints.points != null)
         {
             target = Waypoints.points[0];
+        }else{
+            
         }
         
     }
@@ -26,14 +28,28 @@ public class EnemyMovement : MonoBehaviour
             // If no specific waypoint, move toward the center Target
             Vector3 direction = (GameObject.FindFirstObjectByType<Target>().transform.position - transform.position).normalized;
             transform.Translate(direction * speed * Time.deltaTime, Space.World);
+
+
+            float distance = Vector3.Distance(transform.position, GameObject.FindFirstObjectByType<Target>().transform.position);
+            if (distance <= stopDistance) {
+                isAtTarget = true;
+            }
+
+
+
+
             return;
         }
-        if (isAtTarget) return; // Stop moving logic
+        if (isAtTarget) {
+            Debug.Log(gameObject.name + " Reached Target!");
+            return;
+        } // Stop moving logic
 
         Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, target.position.z);
         Vector3 dir = targetPosition - transform.position;
 
         float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+        
 
         // Check if we are at the LAST waypoint and within buffer distance
         if (waypointIndex >= Waypoints.points.Length - 1 && distanceToTarget <= stopDistance)
