@@ -125,9 +125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Turret
   gridSize: {x: 2, y: 2}
-  range: 8
+  range: 9
   fireRate: 0.5
   enemyTag: Enemy
-  turnSpeed: 4
+  turnSpeed: 6
   bulletPrefab: {fileID: 0}
   turretBarrels: []
