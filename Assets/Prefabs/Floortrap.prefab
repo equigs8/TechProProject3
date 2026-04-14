@@ -153,5 +153,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Traps
   ready: 1
-  damage: 100
+  damage: 50
   triggerInterval: 10
