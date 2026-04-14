@@ -7,6 +7,8 @@ public class ResourceManager : MonoBehaviour
     public bool producing;
 
     public int oilMax;
+
+    public int oilMaxDefault;
     
     public static ResourceManager instance;
     void Awake()
@@ -27,7 +29,11 @@ public class ResourceManager : MonoBehaviour
             AddOil(1);
         }
 
-        if (oilAmount > oilMax){
+        if (oilMax < oilMaxDefault){ //make sure oilMax doesnt fall bellow the default
+            oilMax = oilMaxDefault;
+        }
+
+        if (oilAmount > oilMax){ //stop oilAmount from increaseing above oilMax 
             oilAmount = oilMax;
         }
 
@@ -59,12 +65,12 @@ public class ResourceManager : MonoBehaviour
 
     //Oil Max functions
 
-     public void AddMax(int amount)
+     public void IncreaseMax(int amount)
     {
         oilMax += amount;
     }
 
-    public void RemoveMax(int amount)
+    public void LowerMax(int amount)
     {
         oilMax -= amount;
     }
