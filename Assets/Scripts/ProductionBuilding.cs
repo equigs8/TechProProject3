@@ -4,8 +4,8 @@ public class ProductionBuilding : MonoBehaviour
 {
 
     [Header("Attributes")]
-    public int cost = 10;
-    public int production = 1;
+    public int cost = 1000;
+    public int production = 5;
 
     public ResourceManager resourceManager;
 
