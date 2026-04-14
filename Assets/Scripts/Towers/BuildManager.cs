@@ -11,21 +11,20 @@ public class BuildManager : MonoBehaviour
         instance = this;
     }
 
-    [Header("Prefabs")]
     public GameObject standardTurretPrefab;
-    public GameObject largeTurretPrefab;
-    
     private GameObject turretToBuild;
     private GameObject previewInstance;
-
-    public GameObject GetTurretToBuild()
-    {
-        return turretToBuild;
-    }
 
     public void SelectTurretToBuild(GameObject turret)
     {
         turretToBuild = turret;
+
+        if (turretToBuild.GetComponent<Turret>().GetPrice() >= ResourceManager.instance.GetOil())
+        {
+            Debug.Log("Not enough oil!");
+            turretToBuild = null;
+            return;
+        }
 
         if (previewInstance != null) Destroy(previewInstance);
 
@@ -33,15 +32,15 @@ public class BuildManager : MonoBehaviour
         {
             previewInstance = Instantiate(turretToBuild);
             PreparePreview(previewInstance);
+            ResourceManager.instance.RemoveOil(turretToBuild.GetComponent<Turret>().GetPrice());
         }
     }
 
     void PreparePreview(GameObject preview)
     {
-        // Disable logic so the ghost doesn't shoot or collide
-        Turret turretScript = preview.GetComponent<Turret>();
-        if (turretScript != null) turretScript.enabled = false;
-
+        // Disable gameplay scripts and colliders on the ghost
+        if (preview.TryGetComponent(out Turret turret)) turret.enabled = false;
+        
         Collider[] colliders = preview.GetComponentsInChildren<Collider>();
         foreach (Collider col in colliders) col.enabled = false;
 
@@ -59,6 +58,11 @@ public class BuildManager : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance.gameState != GameManager.GameState.BuildingPhase) 
+        {
+            if (GetTurretToBuild() != null) SelectTurretToBuild(null);
+            return;
+        }
         if (turretToBuild == null) return;
 
         UpdatePreviewPosition();
@@ -72,9 +76,7 @@ public class BuildManager : MonoBehaviour
     void UpdatePreviewPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Node node = hit.transform.GetComponent<Node>();
             if (node != null)
@@ -88,25 +90,17 @@ public class BuildManager : MonoBehaviour
                     previewInstance.transform.position = GetCenterOfNodes(footprint);
                 }
             }
-            else
-            {
-                previewInstance.SetActive(false);
-            }
+            else previewInstance.SetActive(false);
         }
     }
 
     void HandlePlacement()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
             Node node = hit.transform.GetComponent<Node>();
-            if (node != null)
-            {
-                BuildTurretOn(node);
-            }
+            if (node != null) BuildTurretOn(node);
         }
     }
 
@@ -115,43 +109,26 @@ public class BuildManager : MonoBehaviour
         Vector2Int size = GetCurrentTurretSize();
         List<Node> footprint = GetNodesInFootprint(rootNode, size.x, size.y);
 
-        // Validation: Ensure the full area is available
-        if (footprint.Count < (size.x * size.y))
-        {
-            Debug.Log("Not enough space!");
-            return;
-        }
+        if (footprint.Count < (size.x * size.y)) return;
 
         foreach (Node n in footprint)
         {
-            if (n.turret != null)
-            {
-                Debug.Log("Area is occupied!");
-                return;
-            }
+            if (n.turret != null) return;
         }
 
-        // Build the turret at the center of the selected nodes
         Vector3 spawnPos = GetCenterOfNodes(footprint);
         GameObject turret = Instantiate(turretToBuild, spawnPos, Quaternion.identity);
 
-        // Mark all nodes in the footprint as occupied
-        foreach (Node n in footprint)
-        {
-            n.turret = turret;
-        }
+        foreach (Node n in footprint) n.turret = turret;
 
-        // Cleanup
         if (previewInstance != null) Destroy(previewInstance);
         turretToBuild = null;
     }
 
-    // Helper: Finds neighbors based on the "Node_X_Z" naming convention
     List<Node> GetNodesInFootprint(Node rootNode, int w, int l)
     {
         List<Node> nodes = new List<Node>();
-        string[] parts = rootNode.name.Split('_'); //
-        
+        string[] parts = rootNode.name.Split('_');
         if (parts.Length < 3) return nodes;
 
         int startX = int.Parse(parts[1]);
@@ -162,11 +139,8 @@ public class BuildManager : MonoBehaviour
             for (int z = 0; z < l; z++)
             {
                 GameObject neighbor = GameObject.Find($"Node_{startX + x}_{startZ + z}");
-                if (neighbor != null)
-                {
-                    Node n = neighbor.GetComponent<Node>();
-                    if (n != null) nodes.Add(n);
-                }
+                if (neighbor != null && neighbor.TryGetComponent(out Node n))
+                    nodes.Add(n);
             }
         }
         return nodes;
@@ -181,7 +155,11 @@ public class BuildManager : MonoBehaviour
 
     Vector2Int GetCurrentTurretSize()
     {
-        Turret t = turretToBuild.GetComponent<Turret>();
-        return t != null ? t.gridSize : new Vector2Int(1, 1);
+        if (turretToBuild == null) return Vector2Int.one;
+        return turretToBuild.GetComponent<Turret>()?.size ?? Vector2Int.one;
+    }
+    public GameObject GetTurretToBuild()
+    {
+        return turretToBuild;
     }
 }
