@@ -13,11 +13,21 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
-        target = Waypoints.points[0];
+        if (Waypoints.points != null)
+        {
+            target = Waypoints.points[0];
+        }
+        
     }
 
     void Update()
     {
+        if (target == null) {
+            // If no specific waypoint, move toward the center Target
+            Vector3 direction = (GameObject.FindObjectOfType<Target>().transform.position - transform.position).normalized;
+            transform.Translate(direction * speed * Time.deltaTime, Space.World);
+            return;
+        }
         if (isAtTarget) return; // Stop moving logic
 
         Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, target.position.z);
@@ -60,4 +70,13 @@ public class EnemyMovement : MonoBehaviour
     }
 
     public bool ReachedTarget() => isAtTarget;
+
+    void OnDestroy()
+{
+    // Check for instance to avoid errors when closing the game
+    if (GameManager.instance != null)
+    {
+        GameManager.instance.EnemyDestroyed();
+    }
+}
 }

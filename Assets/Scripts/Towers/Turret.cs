@@ -1,11 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Linq; // Required for sorting enemies
+using System.Linq;
 
 public class Turret : MonoBehaviour
 {
+    [Header("Placement Settings")]
+    public Vector2Int size = new Vector2Int(1, 1); // Width (X) and Length (Y) in nodes
+
     [Header("Attributes")]
-    public Vector2Int gridSize = new Vector2Int(1, 1);
     public float range = 15f;
     public float fireRate = 1f;
     private float fireCountdown = 0f;
@@ -20,13 +22,9 @@ public class Turret : MonoBehaviour
 
     void Start()
     {
-        // Automatically fill the list if empty
         if (turretBarrels.Count == 0)
-        {
             turretBarrels.AddRange(GetComponentsInChildren<Barrel>());
-        }
 
-        // Search for targets twice a second
         InvokeRepeating("UpdateTargetAssignments", 0f, 0.5f);
     }
 
@@ -34,26 +32,18 @@ public class Turret : MonoBehaviour
     {
         GameObject[] allEnemies = GameObject.FindGameObjectsWithTag(enemyTag);
         
-        // Find all enemies in range and sort them by distance to this turret
         List<Transform> sortedEnemies = allEnemies
             .Select(e => e.transform)
             .Where(t => Vector3.Distance(transform.position, t.position) <= range)
             .OrderBy(t => Vector3.Distance(transform.position, t.position))
             .ToList();
 
-        // Assign a unique enemy to each barrel
         for (int i = 0; i < turretBarrels.Count; i++)
         {
             if (i < sortedEnemies.Count)
-            {
-                // Assign the i-th closest enemy to the i-th barrel
                 turretBarrels[i].currentTarget = sortedEnemies[i];
-            }
             else
-            {
-                // No more unique enemies available
                 turretBarrels[i].currentTarget = null;
-            }
         }
     }
 
@@ -73,16 +63,12 @@ public class Turret : MonoBehaviour
     {
         foreach (Barrel barrel in turretBarrels)
         {
-            // Ensure the barrel has a target and a valid pivot to rotate
             if (barrel.currentTarget == null || barrel.pivot == null) continue;
 
-            // Calculate direction to the specific target assigned to this barrel
             Vector3 dir = barrel.currentTarget.position - barrel.pivot.position;
-            
             if (dir != Vector3.zero)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(dir);
-                // Use Slerp for smoother tracking
                 barrel.pivot.rotation = Quaternion.Slerp(barrel.pivot.rotation, lookRotation, Time.deltaTime * turnSpeed);
             }
         }
@@ -92,11 +78,8 @@ public class Turret : MonoBehaviour
     {
         foreach (Barrel barrel in turretBarrels)
         {
-            // Only fire if this specific barrel has a target
             if (barrel.currentTarget != null)
-            {
                 FireFromBarrel(barrel);
-            }
         }
     }
 
@@ -105,10 +88,8 @@ public class Turret : MonoBehaviour
         if (barrel.firePoint == null || bulletPrefab == null) return;
 
         GameObject bulletGO = Instantiate(bulletPrefab, barrel.firePoint.position, barrel.firePoint.rotation);
-        Bullet bullet = bulletGO.GetComponent<Bullet>();
-
-        if (bullet != null)
-            bullet.Seek(barrel.currentTarget); // Pass the barrel's unique target
+        // Assuming your Bullet script has a Seek method
+        bulletGO.GetComponent<Bullet>()?.Seek(barrel.currentTarget);
     }
 
     void OnDrawGizmosSelected()
