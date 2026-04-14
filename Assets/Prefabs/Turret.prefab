@@ -126,7 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8cf16928892e94b9bc8df978513b71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  range: 25
+  size: {x: 1, y: 1}
+  range: 40
   fireRate: 1
   enemyTag: Enemy
   turnSpeed: 10
