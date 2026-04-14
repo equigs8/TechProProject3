@@ -129,5 +129,5 @@ MonoBehaviour:
   fireRate: 1
   enemyTag: Enemy
   turnSpeed: 12
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 4148628363837234058, guid: 877ba588940105f44a82b455ee1ec07d, type: 3}
   turretBarrels: []
