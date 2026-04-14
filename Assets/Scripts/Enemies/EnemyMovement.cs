@@ -24,7 +24,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (target == null) {
             // If no specific waypoint, move toward the center Target
-            Vector3 direction = (GameObject.FindObjectOfType<Target>().transform.position - transform.position).normalized;
+            Vector3 direction = (GameObject.FindFirstObjectByType<Target>().transform.position - transform.position).normalized;
             transform.Translate(direction * speed * Time.deltaTime, Space.World);
             return;
         }
