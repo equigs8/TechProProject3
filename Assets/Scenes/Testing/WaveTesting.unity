@@ -3036,11 +3036,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866deebf23753454da28a6a4c26d3fc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefab: {fileID: 490064776433880116, guid: 2b1dc47c384128f4cb43989281e7627d, type: 3}
-  spawnRadius: 61.5
+  enemyPrefab: {fileID: 0}
+  spawnRadius: 20
   spawnInterval: 0.5
   baseEnemyCount: 5
-  centerPoint: {fileID: 233195646}
+  centerPoint: {fileID: 0}
 --- !u!4 &512544758
 Transform:
   m_ObjectHideFlags: 0
@@ -7811,7 +7811,7 @@ MonoBehaviour:
   readyButton:
     m_PersistentCalls:
       m_Calls: []
-  readyButtonObject: {fileID: 6937282}
+  readyButtonObject: {fileID: 0}
 --- !u!4 &1546935895
 Transform:
   m_ObjectHideFlags: 0
