@@ -152,6 +152,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f3e1f8525ec4ee49a47798f5e450826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Traps
+  gridSize: {x: 2, y: 2}
+  range: 15
+  fireRate: 1
+  enemyTag: Enemy
+  turnSpeed: 10
+  bulletPrefab: {fileID: 0}
+  turretBarrels: []
   ready: 1
   damage: 50
   triggerInterval: 10

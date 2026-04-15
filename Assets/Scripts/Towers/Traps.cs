@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Traps : MonoBehaviour
+public class Traps : Turret
 {
     public bool ready = true;
     public float damage = 1f;
