@@ -214,6 +214,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1476831318}
+  - {fileID: 3262709766679374049}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -524,6 +525,11 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
+--- !u!4 &3262709766679374049 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+  m_PrefabInstance: {fileID: 4421631457482303190}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3449403418973158358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -576,11 +582,140 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7471794393305016039, guid: 664b7aa7ad77b466898d2652d43334c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 664b7aa7ad77b466898d2652d43334c0, type: 3}
+--- !u!1001 &4421631457482303190
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 839805749}
+    m_Modifications:
+    - target: {fileID: 81024023247627097, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_fontSize
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 81024023247627097, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_fontSizeMax
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 81024023247627097, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_fontSizeMin
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 81024023247627097, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1361443047686066760, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_Name
+      value: LossManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: GameTips.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[0]'
+      value: You can use Production Buildings to get money!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[1]'
+      value: You can use Oil Tanks to hold more oil!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[3]'
+      value: That was a great try!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[4]'
+      value: DUCK!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[5]'
+      value: Quack!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[6]'
+      value: Turrets are useful
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[7]'
+      value: Whats the meaning of life?
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[8]'
+      value: Hello, World
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[9]'
+      value: Good Job
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[10]'
+      value: Try again?
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[11]'
+      value: Protect your tanker!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436120483482931791, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: 'GameTips.Array.data[12]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 424.80762
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 43.546387
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -441.72473
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5518041046574403594, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 327fd568ea6a94912aeec4d84b137d3b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
