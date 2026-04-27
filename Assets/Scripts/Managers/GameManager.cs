@@ -33,7 +33,11 @@ public class GameManager : MonoBehaviour
     }
 
     void Update()
-    {
+    {   
+        if(gameState == GameState.BuildingPhase && gameState == GameState.InWave)
+        {
+            uiManager.UpdateOil(resourceManager.GetCurrentOil());
+        }
         if (gameState == GameState.InWave)
         {
             // Check if ALL targets are destroyed
@@ -118,5 +122,10 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Wave Cleared! Returning to Building Phase.");
         ChangeState(GameState.BuildingPhase);
+    }
+
+    public void ChangeMaxOil(int amount)
+    {
+        uiManager.UpdateOilMax(resourceManager.GetMaxOil());
     }
 }

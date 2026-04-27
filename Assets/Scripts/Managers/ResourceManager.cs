@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
@@ -75,4 +76,13 @@ public class ResourceManager : MonoBehaviour
         oilMax -= amount;
     }
 
+    internal int GetMaxOil()
+    {
+        return oilMax;
+    }
+
+    internal int GetCurrentOil()
+    {
+        return oilAmount;
+    }
 }

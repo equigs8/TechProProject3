@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 
     public GameObject buildingPhaseUI;
     public GameObject gameOverUI;
+    public GameObject resourceUI;
     internal void BuildingPhaseUI(bool v)
     {
         buildingPhaseUI.SetActive(v);
@@ -15,6 +16,17 @@ public class UIManager : MonoBehaviour
     {
         gameOverUI.SetActive(v);
         buildingPhaseUI.SetActive(!v);
+    }
+
+    public void UpdateOil(int amount)
+    {
+        resourceUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<UnityEngine.UI.Text>().text = amount.ToString(); //Set Amount
+
+    }
+
+    public void UpdateOilMax(int amount)
+    {
+        resourceUI.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<UnityEngine.UI.Text>().text = amount.ToString();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
