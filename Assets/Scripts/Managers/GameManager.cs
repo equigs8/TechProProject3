@@ -3,16 +3,15 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager instance; // Singleton for easy access from enemies
+    public static GameManager instance; 
 
     public enum GameState { BuildingPhase, InWave, GameOver, Tutorial };
 
     public GameState gameState;
     public int currentWave;
-    public int enemiesAlive; // Tracks remaining enemies
+    public int enemiesAlive; 
 
-    public Target target;
-
+    public Target[] targets;
     public EnemySpawner enemySpawner;
     public BuildingManager buildingManager;
     public ButtonManager buttonManager;
@@ -24,41 +23,59 @@ public class GameManager : MonoBehaviour
         if (instance == null) instance = this;
     }
 
-    void OnEnable()
-    {
-        SubscribeToEvents();
-    }
-
     void Start()
     {
         currentWave = 0;
-        gameState = GameState.BuildingPhase;
+        SubscribeToEvents();
+        
+        // Initialize the first state
+        ChangeState(GameState.BuildingPhase);
     }
 
     void Update()
     {
+        if (gameState == GameState.InWave)
+        {
+            // Check if ALL targets are destroyed
+            bool anyTargetAlive = false;
+            foreach (Target t in targets)
+            {
+                if (t != null && t.health > 0)
+                {
+                    anyTargetAlive = true;
+                    break; 
+                }
+            }
+
+            if (!anyTargetAlive)
+            {
+                ChangeState(GameState.GameOver);
+            }
+        }
+    }
+
+    // A new method to handle transitioning between states cleanly
+    public void ChangeState(GameState newState)
+    {
+        gameState = newState;
+
         switch (gameState)
         {
             case GameState.BuildingPhase:
                 resourceManager.StopOilProduction();
                 uiManager.BuildingPhaseUI(true);
+                buttonManager.TurnOnButton("Ready Button"); // Ensure button is on
                 break;
+
             case GameState.InWave:
                 resourceManager.StartOilProduction();
                 uiManager.BuildingPhaseUI(false);
-                // Check if all enemies are defeated to return to BuildingPhase
-                if (enemiesAlive <= 0)
-                {
-                    EndWave();
-                }
-                if(target.health <= 0)
-                {
-                    gameState = GameState.GameOver;
-                }
                 break;
+
             case GameState.GameOver:
                 uiManager.GameOverUI(true);
                 break;
+
             case GameState.Tutorial:
                 break;
         }
@@ -74,22 +91,32 @@ public class GameManager : MonoBehaviour
         if (gameState != GameState.BuildingPhase) return;
 
         buttonManager.TurnOffButton("Ready Button");
-        gameState = GameState.InWave;
-        currentWave++; // Increment wave number
+        
+        currentWave++; 
+        
+        // Calculate enemies for this wave (e.g., 5 base + 2 per wave)
+        enemiesAlive = 5 + (currentWave * 2); 
 
-        // Start spawning with scaled enemy count
-        enemySpawner.StartWave(currentWave);
+        // Start the wave and pass the count to the spawner
+        ChangeState(GameState.InWave);
+        enemySpawner.StartWave(currentWave, enemiesAlive);
     }
 
+    // Called by enemies when they die via: GameManager.instance.EnemyDestroyed();
     public void EnemyDestroyed()
     {
-        enemiesAlive--; // Called by enemies when they die
+        enemiesAlive--; 
+
+        // We only need to check if the wave is over when an enemy actually dies!
+        if (gameState == GameState.InWave && enemiesAlive <= 0)
+        {
+            EndWave();
+        }
     }
 
     void EndWave()
     {
         Debug.Log("Wave Cleared! Returning to Building Phase.");
-        gameState = GameState.BuildingPhase;
-        buttonManager.TurnOnButton("Ready Button"); // Re-enable the button for the next wave
+        ChangeState(GameState.BuildingPhase);
     }
 }

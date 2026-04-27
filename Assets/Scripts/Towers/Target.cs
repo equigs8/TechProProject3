@@ -13,7 +13,8 @@ public class Target : MonoBehaviour
         if (health <= 0)
         {
             // Handle Game Over logic here
-            Debug.Log("Game Over!");
+            Debug.Log("Target Destroyed!");
+            Destroy(gameObject);
         }
     }
 }

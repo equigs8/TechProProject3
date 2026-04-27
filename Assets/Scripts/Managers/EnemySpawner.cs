@@ -1,48 +1,88 @@
 using UnityEngine;
-using System.Collections;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Spawner Settings")]
-    public GameObject enemyPrefab;
-    public float spawnRadius = 20f;
-    public float spawnInterval = 0.5f; // Time between individual spawns
-    public int baseEnemyCount = 5; // Enemies in wave 1
-    
-    [Header("Unity Setup")]
-    public Transform centerPoint;
+    [Header("Enemy Settings")]
+    [Tooltip("List enemies from weakest (Index 0) to strongest (Last Index)")]
+    public GameObject[] enemies;
 
-    // Triggered by GameManager
-    public void StartWave(int waveNumber)
+    [Header("Spawn Area")]
+    [Tooltip("The radius around the spawner where enemies can appear.")]
+    public float spawnRadius = 5f;
+    public float spawnOffsetY = 1f;
+    // Called by the GameManager when the Ready button is clicked
+    public void StartWave(int waveLevel, int amountToSpawn)
     {
-        int totalEnemies = baseEnemyCount * waveNumber; // Scaling logic
-        GameManager.instance.enemiesAlive = totalEnemies;
-        StartCoroutine(SpawnWaveRoutine(totalEnemies));
-    }
-
-    IEnumerator SpawnWaveRoutine(int count)
-    {
-        for (int i = 0; i < count; i++)
+        if (enemies == null || enemies.Length == 0)
         {
-            SpawnEnemy();
-            yield return new WaitForSeconds(spawnInterval);
+            Debug.LogError("No enemies assigned to the Spawner!");
+            return;
+        }
+
+        for (int i = 0; i < amountToSpawn; i++)
+        {
+            SpawnSingleEnemy(waveLevel);
         }
     }
 
-    void SpawnEnemy()
+    private void SpawnSingleEnemy(int currentLevel)
     {
-        float angle = Random.Range(0, Mathf.PI * 2);
-        float x = Mathf.Cos(angle) * spawnRadius;
-        float z = Mathf.Sin(angle) * spawnRadius;
+        int indexToSpawn = GetWeightedSpawnIndex(currentLevel);
+        
+        // 1. By adding .normalized, we take a random point inside the circle 
+        // and stretch it out so it sits perfectly on the 1-unit edge.
+        // Then we multiply it by the radius to push it to your exact boundary.
+        Vector2 randomPoint = Random.insideUnitCircle.normalized * spawnRadius;
+        
+        // 2. Add that offset to the spawner's current position 
+        Vector3 spawnPosition = transform.position + new Vector3(randomPoint.x, spawnOffsetY, randomPoint.y);
 
-        Vector3 spawnPos = new Vector3(x, 0, z) + (centerPoint != null ? centerPoint.position : transform.position);
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        // 3. Instantiate the selected enemy at the new randomized position
+        Instantiate(enemies[indexToSpawn], spawnPosition, Quaternion.identity);
     }
 
-    void OnDrawGizmos()
+    private int GetWeightedSpawnIndex(int currentLevel)
     {
-        Gizmos.color = Color.yellow;
-        Vector3 center = centerPoint != null ? centerPoint.position : transform.position;
-        Gizmos.DrawWireSphere(center, spawnRadius);
+        float[] weights = new float[enemies.Length];
+        float totalWeight = 0f;
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            float weight = 0f;
+            int minLevelToSpawn = i + 1; 
+
+            if (currentLevel >= minLevelToSpawn)
+            {
+                weight = 10f + (currentLevel * i * 5f); 
+            }
+            else if (i == 0)
+            {
+                weight = 10f;
+            }
+
+            weights[i] = weight;
+            totalWeight += weight;
+        }
+
+        float randomRoll = Random.Range(0f, totalWeight);
+        float currentSum = 0f;
+
+        for (int i = 0; i < weights.Length; i++)
+        {
+            currentSum += weights[i];
+            if (randomRoll <= currentSum)
+            {
+                return i;
+            }
+        }
+
+        return 0; 
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // This will draw a colored wire sphere in the Scene view when you click on the Spawner
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, spawnRadius);
     }
 }
