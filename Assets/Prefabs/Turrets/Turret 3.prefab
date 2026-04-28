@@ -129,8 +129,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   size: {x: 2, y: 2}
   placementYOffset: -3.25
-  cost: 20
-  range: 220
+  cost: 30
+  range: 320
   fireRate: 1
   enemyTag: Enemy
   turnSpeed: 10
