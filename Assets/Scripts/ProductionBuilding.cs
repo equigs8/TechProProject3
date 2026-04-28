@@ -14,12 +14,13 @@ public class ProductionBuilding : MonoBehaviour
     void Start()
     {
         resourceManager = ResourceManager.instance;
+
+        resourceManager.AddAdditionalFlow(production);
     }
 
     void Update()
     {
-        resourceManager.AddOil(production);
-        
+        //resourceManager.AddOil(production); 
     }
 
     public int GetPrice()

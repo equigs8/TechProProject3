@@ -6,7 +6,7 @@ using System;
 public class Turret : MonoBehaviour
 {
     [Header("Placement Settings")]
-    public Vector2Int size = new Vector2Int(1, 1); // Width (X) and Length (Y) in nodes
+    public Vector2Int size = new Vector2Int(1, 1);
     public float placementYOffset = 0f;
 
     [Header("Attributes")]
@@ -19,6 +19,9 @@ public class Turret : MonoBehaviour
     public string enemyTag = "Enemy";
     public float turnSpeed = 10f;
     public GameObject bulletPrefab;
+    
+    [Tooltip("Drag your particle effect prefab here!")]
+    public GameObject fireEffectPrefab; // <-- NEW: Slot for your particle effect
 
     [Header("Barrel Configuration")]
     public List<Barrel> turretBarrels = new List<Barrel>();
@@ -90,8 +93,18 @@ public class Turret : MonoBehaviour
     {
         if (barrel.firePoint == null || bulletPrefab == null) return;
 
+        // 1. Spawn the Bullet
         GameObject bulletGO = Instantiate(bulletPrefab, barrel.firePoint.position, barrel.firePoint.rotation);
         bulletGO.GetComponent<Bullet>()?.Seek(barrel.currentTarget);
+
+        // 2. Spawn the Firing Effect
+        if (fireEffectPrefab != null)
+        {
+            GameObject effectGO = Instantiate(fireEffectPrefab, barrel.firePoint.position, barrel.firePoint.rotation);
+            
+            // Clean up the particle object after 2 seconds so it doesn't clutter your hierarchy!
+            Destroy(effectGO, 2f); 
+        }
     }
 
     void OnDrawGizmosSelected()

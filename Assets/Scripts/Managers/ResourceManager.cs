@@ -1,33 +1,41 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class ResourceManager : MonoBehaviour
 {
-
+    public float oilRate;
+    public int oilFlow;
     public int oilAmount;
     public bool producing;
+    public int additionalFlow;
 
     public int oilMax;
 
     public int oilMaxDefault;
+    private bool produceOilCoroutineRunning;
     
     public static ResourceManager instance;
+    
     void Awake()
     {
         if (instance != null) return;
         instance = this;
     }
+    
     void Start()
     {
-        
+        oilMax = oilMaxDefault;
+        oilAmount = oilMax;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (producing)
+        // FIX 1: Check the running flag so we only start ONE coroutine
+        if (producing && !produceOilCoroutineRunning)
         {
-            AddOil(1);
+            StartCoroutine(ProduceOil()); // Must use StartCoroutine()
         }
 
         if (oilMax < oilMaxDefault){ //make sure oilMax doesnt fall bellow the default
@@ -37,7 +45,24 @@ public class ResourceManager : MonoBehaviour
         if (oilAmount > oilMax){ //stop oilAmount from increaseing above oilMax 
             oilAmount = oilMax;
         }
+    }
 
+    IEnumerator ProduceOil()
+    {
+        Debug.Log("Producing oil");
+        
+        produceOilCoroutineRunning = true; 
+
+        
+        while (producing) 
+        {
+            Debug.Log("Inside While Loop");
+            yield return new WaitForSeconds(oilRate);
+            AddOil(oilFlow + additionalFlow);
+        }
+        
+        
+        produceOilCoroutineRunning = false; 
     }
 
     public int GetOil()
@@ -61,9 +86,20 @@ public class ResourceManager : MonoBehaviour
     {
         producing = true;
     }
+    
     public void StopOilProduction()
     {
         producing = false;
+    }
+
+    public void AddAdditionalFlow(int amount)
+    {
+        additionalFlow += amount;
+    }
+    
+    public void RemoveAdditionalFlow(int amount)
+    {
+        additionalFlow -= amount;
     }
 
     //Oil Max functions

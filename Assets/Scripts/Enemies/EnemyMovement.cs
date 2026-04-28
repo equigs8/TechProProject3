@@ -6,9 +6,10 @@ public class EnemyMovement : MonoBehaviour
     public float speed = 10f;
     public float rotationSpeed = 5f;
     public float stopDistance = 2.0f; // The "buffer" so enemies don't stack
+    
+    [Tooltip("Add X, Y, or Z rotation Offset")]
+    public Vector3 rotationOffset; 
 
-    // I split the target variable into two so the script knows 
-    // if it's chasing a waypoint or an actual player Target
     private Transform currentWaypoint;
     private Transform closestTarget;
     
@@ -17,23 +18,21 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
-        // 1. If waypoints exist, start following the path
         if (Waypoints.points != null && Waypoints.points.Length > 0)
         {
             currentWaypoint = Waypoints.points[0];
         }
         else
         {
-            // 2. If no waypoints exist, immediately lock onto the closest of the 4 targets
             FindClosestTarget();
         }
     }
 
     void Update()
     {
-        if (isAtTarget) return; // Stop moving logic
+        if (isAtTarget) return; 
 
-        // --- SCENARIO A: Following Waypoints ---
+        
         if (currentWaypoint != null)
         {
             MoveAndRotate(currentWaypoint.position);
@@ -41,7 +40,6 @@ public class EnemyMovement : MonoBehaviour
             Vector3 targetPos = new Vector3(currentWaypoint.position.x, transform.position.y, currentWaypoint.position.z);
             float distanceToWaypoint = Vector3.Distance(transform.position, targetPos);
 
-            // Check if we are at the LAST waypoint and within buffer distance
             if (waypointIndex >= Waypoints.points.Length - 1 && distanceToWaypoint <= stopDistance)
             {
                 isAtTarget = true;
@@ -49,21 +47,17 @@ public class EnemyMovement : MonoBehaviour
                 return;
             }
 
-            // Check if we reached a middle waypoint and need to turn
             if (distanceToWaypoint <= 0.2f)
             {
                 GetNextWaypoint();
             }
         }
-        // --- SCENARIO B: Seeking Closest Target (No Waypoints) ---
+        
         else
         {
-            // If the target we were hunting was destroyed, find the next closest one
             if (closestTarget == null)
             {
                 FindClosestTarget();
-                
-                // If it's STILL null, all 4 targets are destroyed. Stop moving.
                 if (closestTarget == null) return; 
             }
 
@@ -80,7 +74,6 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    // Consolidated your movement math here so it can be used for both scenarios
     private void MoveAndRotate(Vector3 destination)
     {
         Vector3 targetPosition = new Vector3(destination.x, transform.position.y, destination.z);
@@ -89,10 +82,12 @@ public class EnemyMovement : MonoBehaviour
         // Standard Movement
         transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
 
-        // Rotation
+        // Rotation with the new offset applied!
         if (dir != Vector3.zero)
         {
-            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            // Calculate where we SHOULD look, then add your custom offset
+            Quaternion lookRotation = Quaternion.LookRotation(dir) * Quaternion.Euler(rotationOffset);
+            
             transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
         }
     }
@@ -107,7 +102,6 @@ public class EnemyMovement : MonoBehaviour
 
     private void FindClosestTarget()
     {
-        // Failsafe in case GameManager isn't ready
         if (GameManager.instance == null || GameManager.instance.targets == null) return;
 
         Target[] allTargets = GameManager.instance.targets;
@@ -117,7 +111,6 @@ public class EnemyMovement : MonoBehaviour
 
         foreach (Target t in allTargets)
         {
-            // Skip dead or missing targets
             if (t == null || t.health <= 0) continue; 
 
             float distanceToTarget = Vector3.Distance(transform.position, t.transform.position);
@@ -136,7 +129,6 @@ public class EnemyMovement : MonoBehaviour
 
     void OnDestroy()
     {
-        // Check for instance to avoid errors when closing the game
         if (GameManager.instance != null)
         {
             GameManager.instance.EnemyDestroyed();
