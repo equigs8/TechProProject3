@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
 
     void RestartGame()
     {
-        LevelManager.instance.ChangeState(GameState.BuildingPhase);
+        LevelManager.instance.RestartLevel();
     }
 
     void ReadyButtonClicked()
