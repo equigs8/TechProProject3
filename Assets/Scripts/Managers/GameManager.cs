@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public ResourceManager resourceManager;
     public UIManager uiManager;
 
+    public TextMeshProUGUI[] legHealthTexts;
+
     void Awake()
     {
         if (instance == null) instance = this;
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {   
+        UpdateLegHealthUI()
         ChangeMaxOil(resourceManager.GetMaxOil());
         if(gameState == GameState.BuildingPhase)
         {
@@ -63,7 +66,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // A new method to handle transitioning between states cleanly
+    void UpdateLegHealthUI()
+    {
+        // Prevent errors if the arrays aren't set up yet
+        if (targets == null || legHealthTexts == null) return;
+
+        for (int i = 0; i < targets.Length; i++)
+        {
+            // Make sure we have a corresponding text element assigned for this index
+            if (i < legHealthTexts.Length && legHealthTexts[i] != null)
+            {
+                if (targets[i] != null && targets[i].health > 0)
+                {
+                    
+                    legHealthTexts[i].text = "HP: " + targets[i].health.ToString("0"); 
+                }
+                else
+                {
+                    
+                    legHealthTexts[i].text = "Destroyed";
+                    legHealthTexts[i].color = Color.red; 
+                }
+            }
+        }
+    }
     public void ChangeState(GameState newState)
     {
         gameState = newState;
