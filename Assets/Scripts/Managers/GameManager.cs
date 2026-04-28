@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {   
-        UpdateLegHealthUI()
+        UpdateLegHealthUI();
         ChangeMaxOil(resourceManager.GetMaxOil());
         if(gameState == GameState.BuildingPhase)
         {
