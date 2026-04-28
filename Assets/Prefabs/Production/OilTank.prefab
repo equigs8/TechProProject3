@@ -124,7 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9aa3473f0ccaa4eea9f325565cff6d83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  size: {x: 1, y: 1}
   cost: 10
-  maxIncrease: 200
+  maxIncrease: 20
   placementYOffset: 0.1
   resourceManager: {fileID: 0}
