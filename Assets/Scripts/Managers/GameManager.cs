@@ -30,16 +30,20 @@ public class GameManager : MonoBehaviour
         
         // Initialize the first state
         ChangeState(GameState.BuildingPhase);
+        ChangeMaxOil(resourceManager.GetMaxOil());
     }
 
     void Update()
     {   
-        if(gameState == GameState.BuildingPhase && gameState == GameState.InWave)
+        if(gameState == GameState.BuildingPhase)
         {
+            resourceManager.StopOilProduction();
             uiManager.UpdateOil(resourceManager.GetCurrentOil());
         }
         if (gameState == GameState.InWave)
         {
+            resourceManager.StartOilProduction();
+            uiManager.UpdateOil(resourceManager.GetCurrentOil());
             // Check if ALL targets are destroyed
             bool anyTargetAlive = false;
             foreach (Target t in targets)

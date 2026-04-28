@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
@@ -20,13 +22,13 @@ public class UIManager : MonoBehaviour
 
     public void UpdateOil(int amount)
     {
-        resourceUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<UnityEngine.UI.Text>().text = amount.ToString(); //Set Amount
-
+        Debug.Log(resourceUI.transform.GetChild(0).GetChild(1).GetChild(0).name);
+        resourceUI.transform.GetChild(0).GetChild(1).GetChild(0).GetComponent<TextMeshProUGUI>().text = amount.ToString(); //Set Amount
     }
 
     public void UpdateOilMax(int amount)
     {
-        resourceUI.transform.GetChild(0).GetChild(1).GetChild(1).GetComponent<UnityEngine.UI.Text>().text = amount.ToString();
+        resourceUI.transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<TextMeshProUGUI>().text = amount.ToString();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
