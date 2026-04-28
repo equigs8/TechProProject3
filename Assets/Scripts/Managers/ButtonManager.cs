@@ -4,8 +4,10 @@ using UnityEngine.Events;
 public class ButtonManager : MonoBehaviour
 {
     public UnityEvent readyButton = new UnityEvent();
+    public UnityEvent restartButton = new UnityEvent();
 
     public void ClickReadyButton() => readyButton.Invoke();
+    public void RestartButton() => restartButton.Invoke();
 
 
     [Header("Buttons")]
@@ -25,5 +27,7 @@ public class ButtonManager : MonoBehaviour
         GameObject button = GameObject.Find(buttonName);
         button.SetActive(false);
     }
+
+    
 
 }

@@ -47,7 +47,9 @@ public class ResourceManager : MonoBehaviour
 
     public void AddOil(int amount)
     {
-        oilAmount += amount;
+        if(producing){
+            oilAmount += amount;
+        }
     }
 
     public void RemoveOil(int amount)

@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a3fd472bd0faaa246bcbba7c783b984b, type: 2}
+  - {fileID: 2100000, guid: ec84e742467c37349b41b5a977861725, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   size: {x: 1, y: 1}
+  placementYOffset: 0.25
   cost: 10
   range: 120
   fireRate: 1

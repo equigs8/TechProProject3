@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bcb737b3478a8e4fbce202fa309eed3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovement
-  speed: 1
+  speed: 2
   rotationSpeed: 6
   stopDistance: 2
 --- !u!114 &7186793887197111799
@@ -170,11 +170,11 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 5957714586465554703, guid: a3cf00fa80a3a4c7ea71b4d8290533bd, type: 2}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 8b248517472ad6c4d8d670c717ea6a0b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

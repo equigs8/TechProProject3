@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {   
+        ChangeMaxOil(resourceManager.GetMaxOil());
         if(gameState == GameState.BuildingPhase)
         {
             resourceManager.StopOilProduction();
@@ -92,6 +93,12 @@ public class GameManager : MonoBehaviour
     void SubscribeToEvents()
     {
         buttonManager.readyButton.AddListener(ReadyButtonClicked);
+        buttonManager.restartButton.AddListener(RestartGame);
+    }
+
+    void RestartGame()
+    {
+        LevelManager.instance.ChangeState(GameState.BuildingPhase);
     }
 
     void ReadyButtonClicked()
